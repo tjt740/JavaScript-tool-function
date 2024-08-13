@@ -21,7 +21,7 @@ export class IndexComponent implements OnInit {
     protected route: Router
   ) {
     this.iconService.fetchFromIconfont({
-      scriptUrl: '//at.alicdn.com/t/c/font_3733690_ycx4nwk4sw.js',
+      scriptUrl: '//at.alicdn.com/t/c/font_3733690_eacvn2ueam.js',
     });
   }
 
@@ -132,13 +132,13 @@ export class IndexComponent implements OnInit {
     if (e.x <= this.initialSiderWidth) {
       this.siderWidth = this.initialSiderWidth + 'px';
       this.dragIcon.nativeElement.style.cssText = `left:${
-        this.initialSiderWidth - 25 + 'px'
+        this.initialSiderWidth - 11 + 'px'
       }`;
       console.log('小于最小宽度!');
       return;
     }
 
-    this.dragEndX = e.x - 25;
+    this.dragEndX = e.x - 11;
 
     this.dragIcon.nativeElement.style.cssText = `left:${this.dragEndX}px`;
 
@@ -158,7 +158,7 @@ export class IndexComponent implements OnInit {
     if (e.x / windowWidth >= 0.65) {
       this.siderWidth = windowWidth * 0.65 + 'px';
       this.dragIcon.nativeElement.style.cssText = `left:${
-        windowWidth * 0.65 - 25 + 'px'
+        windowWidth * 0.65 - 11 + 'px'
       }`;
       console.log('超过最大宽度!');
       return;
