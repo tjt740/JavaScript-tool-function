@@ -370,8 +370,7 @@ export const MenuConfig = [
         router: '/index/util-122',
         functionName: 'removeURLParam',
       },
-
-      {1
+      {
         exhibitStr: '与location相关的一些操作',
         router: '/index/util-76',
         functionName: 'aboutLocation',
