@@ -351,9 +351,9 @@ export const MenuConfig = [
     id: Math.random(),
     childRoute: [
       {
-        exhibitStr: '获取URL上参数信息',
+        exhibitStr: '获取URL上所有参数信息',
         router: '/index/util-27',
-        functionName: 'getUrlInfo',
+        functionName: 'getUrlAllInfo',
       },
       {
         exhibitStr: '获取URL上某一键值对应的值',
@@ -361,14 +361,20 @@ export const MenuConfig = [
         functionName: 'getUrlKeyInfo',
       },
       {
-        exhibitStr: '与location相关的一些操作',
-        router: '/index/util-76',
-        functionName: 'aboutLocation',
-      },
-      {
         exhibitStr: '不刷新页面更改URL上参数',
         router: '/index/util-118',
         functionName: 'changeUrlParams',
+      },
+      {
+        exhibitStr: '不刷新页面删除url某个参数',
+        router: '/index/util-122',
+        functionName: 'removeURLParam',
+      },
+
+      {1
+        exhibitStr: '与location相关的一些操作',
+        router: '/index/util-76',
+        functionName: 'aboutLocation',
       },
     ],
   },

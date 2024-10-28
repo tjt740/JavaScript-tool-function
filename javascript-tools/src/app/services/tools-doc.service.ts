@@ -32,13 +32,31 @@ export class ToolsDocService {
 
       // value: 数字(元)
 
-      const intToChinese = (value) => {
+      function intToChinese(value) {
         if (Number(value) === 0) {
           return '零';
-        };
+        }
         const str = String(value);
         const len = str.length - 1;
-        const idxs = ['', '十', '百', '千', '万', '十', '百', '千', '亿', '十', '百', '千', '万', '十', '百', '千', '亿'];
+        const idxs = [
+          '',
+          '十',
+          '百',
+          '千',
+          '万',
+          '十',
+          '百',
+          '千',
+          '亿',
+          '十',
+          '百',
+          '千',
+          '万',
+          '十',
+          '百',
+          '千',
+          '亿',
+        ];
         const num = ['零', '一', '二', '三', '四', '五', '六', '七', '八', '九'];
         return str.replace(/([1-9]|0+)/g, ($, $1, idx, full) => {
           let pos = 0;
@@ -48,22 +66,21 @@ export class ToolsDocService {
               return idxs[len - idx];
             }
             return num[$1[0]] + idxs[len - idx];
-          } else {
-            let left = len - idx;
-            let right = len - idx + $1.length;
-            if (Math.floor(right / 4) - Math.floor(left / 4) > 0) {
-              pos = left - left % 4;
-            }
-            if (pos) {
-              return idxs[pos] + num[$1[0]];
-            } else if (idx + $1.length >= len) {
-              return '';
-            } else {
-              return num[$1[0]];
-            }
           }
+          const left = len - idx;
+          const right = len - idx + $1.length;
+          if (Math.floor(right / 4) - Math.floor(left / 4) > 0) {
+            pos = left - (left % 4);
+          }
+          if (pos) {
+            return idxs[pos] + num[$1[0]];
+          }
+          if (idx + $1.length >= len) {
+            return '';
+          }
+          return num[$1[0]];
         });
-      };
+      }
 
       intToChinese(1000) // '一千'
       intToChinese('9999') // '九千九百九十九'
@@ -2339,16 +2356,16 @@ export class ToolsDocService {
   }
 
   // Ps:URL操作
-  // *获取URL上参数信息
-  getUrlInfo() {
+  // *获取URL上所有参数信息
+  getUrlAllInfo() {
     return `
       // 获取URL上参数信息
 
       // https://www.baidu.com/s?ie=UTF-8&wd=baidu
 
-      getUrlInfo() // {ie: 'UTF-8', wd: 'baidu'}
+      getUrlAllInfo() // {ie: 'UTF-8', wd: 'baidu'}
 
-      const getUrlInfo = ()=> {
+      const getUrlAllInfo = ()=> {
         let urlInfo = {};
         let flag = window.location.href.split('').includes('?'); //判断是否传参。
 
@@ -2390,6 +2407,37 @@ export class ToolsDocService {
         return new URLSearchParams(window.location.search).get(urlKey);
       };
     
+    `;
+  }
+
+  // *不刷新页面删除url某个参数
+  removeURLParam() {
+    return `
+       function removeURLParam(name) {
+        let url = window.location.href;
+        const urlParam = url.substr(url.indexOf('?') + 1);
+        const beforeUrl = url.substr(0, url.indexOf('?'));
+        const arr = [];
+        
+        if (urlParam !== '') {
+          const urlParamArr = urlParam.split('&');
+
+          for (let i = 0; i < urlParamArr.length; i++) {
+            const paramArr = urlParamArr[i].split('=');
+            if (paramArr[0] !== name) {
+              arr.push(urlParamArr[i]);
+            }
+          }
+        }
+
+        // 生成新的URL
+        const newUrl = arr.length > 0 ? beforeUrl+'?'+arr.join('&') : beforeUrl;
+
+        // 使用 history.replaceState 更新地址栏
+        window.history.replaceState(null, '', newUrl);
+      }
+
+      removeURLParam('id'); https://pre-holovid.cainiao.com/algo/price-card-module/price-card-maintenance?id=1234 →  https://pre-holovid.cainiao.com/algo/price-card-module/price-card-maintenance
     `;
   }
 
@@ -3009,9 +3057,13 @@ export class ToolsDocService {
     return `
       // 判断是移动还是PC设备
 
-      const isMobile = () => {
-        if ((navigator.userAgent.match(/(iPhone|iPod|Android|ios|iOS|iPad|Backerry|WebOS|Symbian|Windows Phone|Phone)/i))) {
-        return 'mobile';
+      function isMobile () {
+        if (
+          /Mobile|Android|iP(hone|od|ad)|IEMobile|BlackBerry|Opera Mini/i.test(
+            navigator.userAgent,
+          )
+        ) {
+          return 'mobile';
         }
         return 'desktop';
       };
